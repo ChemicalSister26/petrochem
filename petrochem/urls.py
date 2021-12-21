@@ -20,5 +20,7 @@ from basicchem.views import *
 from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('basicchem/', include('basicchem.urls'))
+    path('', include('basicchem.urls'))
 ]
+
+handler404 = pageNotFound
