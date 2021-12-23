@@ -1,11 +1,12 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
-
+from .models import *
 # Create your views here.
 
 menu = ['About us', 'Main page', 'Articles', 'Tasks']
 def index(request):
-    return render(request, 'Basicchem/index.html', {'menu': menu, 'title': 'Main Page'})
+    posts = Basicchem.objects.all()
+    return render(request, 'Basicchem/index.html', {'posts': posts, 'menu': menu, 'title': 'Main Page'})
 
 def categories(request, cat):
     return HttpResponse(f'articles by categories, <p>{cat}</p>')

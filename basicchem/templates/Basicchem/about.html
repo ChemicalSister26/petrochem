@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
-<h1>About us</h1>
-<ui>
-    {% for m in menu %}
-    <li>{{ m }}</li>
-    {% endfor %}
-</ui>
-</body>
-</html>
+{%  extends 'Basicchem/base.html' %}
+
+{%  block content %}
+<h1>{{ title }}</h1>
+<p>About us page content</p>
+{% endblock content %}
