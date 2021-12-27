@@ -6,7 +6,10 @@
 {% for p in posts %}
 <li>
     <h3>{{ p.title }}</h3>
-    <p class="first">Category: {{ p.ca }}</p>
+    {% if p.photo %}
+	<img src="{{p.photo.url}}">
+    {% endif %}
+    <p class="first">Category: {{ p.cat }}</p>
     <p> {{ p.content|truncatewords:50 }}</p>
     <a href="{{  p.get_absolute_url }}">Read post</a>
 

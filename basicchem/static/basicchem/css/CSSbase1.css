@@ -32,6 +32,20 @@ a[data-toggle="collapse"] {
     position: relative;
 }
 
+img {max-width: 600px; height: auto;}
+
+img.img-article-left {
+	max-width: 300px;
+	height: auto;
+	float: left;
+	padding: 0 10px 10px 0;
+}
+
+img.img-article-left.thumb {
+    max-width: 150px;
+    height: auto;
+}
+
 .list-unstyledcomponents {
     padding: 25px 25px 25px 25px;
     font-size: 22px;
