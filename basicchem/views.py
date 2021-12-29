@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import *
 # Create your views here.
 
@@ -10,9 +10,13 @@ menu = [{'title': 'About us', 'url_name': 'about'},
 
 
 def index(request):
-    posts = Basicchem.objects.all()
+    post = Basicchem.objects.all()
     cats = Category.objects.all()
-    context = {'posts': posts, 'menu': menu, 'title': 'Main Page', 'cats': cats, 'cat_selected': 0}
+    context = {'post': post,
+               'menu': menu,
+               'title': 'Main Page',
+               'cats': cats,
+               'cat_selected': 1}
     return render(request, 'Basicchem/index.html', context=context)
 
 
@@ -25,17 +29,30 @@ def tasks(requast):
 def about(request):
     return render(request, 'Basicchem/about.html', {'menu': menu, 'title': 'About us'})
 
-def show_post(request, post_id):
-    return HttpResponse(f'showing page with id = {post_id}')
-
-def show_category(request, cat_id):
-    posts = Basicchem.objects.filter(cat_id=cat_id)
+def show_post(request, post_slug):
+    post = get_object_or_404(Basicchem, slug=post_slug)
     cats = Category.objects.all()
 
-    if len(posts) == 0:
+    context = {'post': post,
+               'menu': menu,
+               'title': post.title,
+               'cats': cats,
+               'cat_selected': post.cat_id}
+
+    return render(request, 'Basicchem/post.html', context=context)
+
+def show_category(request, cat_slug):
+    post = Basicchem.objects.filter(slug=cat_slug)
+    cats = Category.objects.all()
+
+    if len(post) == 0:
         raise Http404()
 
-    context = {'posts': posts, 'menu': menu, 'title': 'Main Page', 'cats': cats, 'cat_selected': 0}
+    context = {'post': post,
+               'menu': menu,
+               'title': 'Main Page',
+               'cats': cats,
+               'cat_selected': cat_slug}
     return render(request, 'Basicchem/index.html', context=context)
 
 

@@ -3,11 +3,11 @@
 {%  block content %}
 <h1>{{ title }}</h1>
 <ui>
-{% for p in posts %}
+{% for p in post %}
 <li>
     <h3>{{ p.title }}</h3>
     {% if p.photo %}
-	<img class="img-article-left.thumb" src="{{p.photo.url}}">
+	<img style="max-width: 600px; height: auto" src="{{p.photo.url}}">
     {% endif %}
     <p class="first">Category: {{ p.cat }}</p>
     <p> {{ p.content|truncatewords:50 }}</p>
