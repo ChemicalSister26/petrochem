@@ -1,12 +1,15 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, get_object_or_404
+
+from .forms import *
 from .models import *
 # Create your views here.
 
 menu = [{'title': 'About us', 'url_name': 'about'},
         {'title': 'Main page', 'url_name': 'home'},
         {'title': 'Articles', 'url_name': 'articles'},
-        {'title': 'Tasks', 'url_name': 'tasks'}]
+        {'title': 'Tasks', 'url_name': 'tasks'},
+        {'title': 'Add feedback', 'url_name': 'add_feedback'}]
 
 
 def index(request):
@@ -42,8 +45,9 @@ def show_post(request, post_slug):
     return render(request, 'Basicchem/post.html', context=context)
 
 def show_category(request, cat_slug):
-    post = Basicchem.objects.filter(slug=cat_slug)
-    cats = Category.objects.all()
+    cats = Category.objects.filter(slug=cat_slug)
+    post = Basicchem.objects.filter(cat_id=cats[0].id)
+
 
     if len(post) == 0:
         raise Http404()
@@ -52,9 +56,13 @@ def show_category(request, cat_slug):
                'menu': menu,
                'title': 'Main Page',
                'cats': cats,
-               'cat_selected': cat_slug}
-    return render(request, 'Basicchem/index.html', context=context)
+               'cat_selected': cats[0].id}
+    return render(request, 'Basicchem/category.html', context=context)
 
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('unfortunately page not found')
+
+def add_feedback(request):
+    form = Addfeedback()
+    return render(request, 'Basicchem/addfeedback.html', {'form': form, 'menu': menu, 'title': 'Add Feedback'})
