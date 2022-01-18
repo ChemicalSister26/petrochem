@@ -64,5 +64,10 @@ def pageNotFound(request, exception):
     return HttpResponseNotFound('unfortunately page not found')
 
 def add_feedback(request):
-    form = Addfeedback()
+    if request.method == 'POST':
+        form = Addfeedback(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+    else:
+        form = Addfeedback()
     return render(request, 'Basicchem/addfeedback.html', {'form': form, 'menu': menu, 'title': 'Add Feedback'})

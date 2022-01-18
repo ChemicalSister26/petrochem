@@ -59,3 +59,7 @@ img {max-width: 600px; height: auto;}
     }
 }
 
+.form_label {
+    margin-left: 50px;
+    padding-right: 20px;
+}
