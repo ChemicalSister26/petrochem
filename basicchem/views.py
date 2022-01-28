@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import *
 from .models import *
@@ -65,9 +65,10 @@ def pageNotFound(request, exception):
 
 def add_feedback(request):
     if request.method == 'POST':
-        form = Addfeedback(request.POST)
+        form = Addfeedback(request.POST, request.FILES)
         if form.is_valid():
-            print(form.cleaned_data)
+            form.save()
+            return redirect('home')
     else:
         form = Addfeedback()
     return render(request, 'Basicchem/addfeedback.html', {'form': form, 'menu': menu, 'title': 'Add Feedback'})
