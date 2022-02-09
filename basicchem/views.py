@@ -1,6 +1,10 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, get_object_or_404
 
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
+
 from .forms import *
 from .models import *
 # Create your views here.
@@ -11,16 +15,22 @@ menu = [{'title': 'About us', 'url_name': 'about'},
         {'title': 'Tasks', 'url_name': 'tasks'},
         {'title': 'Add feedback', 'url_name': 'add_feedback'}]
 
+cats = Category.objects.all()
 
-def index(request):
-    post = Basicchem.objects.all()
-    cats = Category.objects.all()
-    context = {'post': post,
-               'menu': menu,
-               'title': 'Main Page',
-               'cats': cats,
-               'cat_selected': 1}
-    return render(request, 'Basicchem/index.html', context=context)
+class Basicchemmain(ListView):
+    model = Basicchem
+    template_name = 'Basicchem/index.html'
+    context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Main page'
+        context['cat_selected'] = 0
+        context['cats'] = cats
+        context['cat_selected'] = context['post'][0].cat_id
+        return context
+
 
 
 def articles(request):
@@ -32,36 +42,53 @@ def tasks(requast):
 def about(request):
     return render(request, 'Basicchem/about.html', {'menu': menu, 'title': 'About us'})
 
-def show_post(request, post_slug):
-    post = get_object_or_404(Basicchem, slug=post_slug)
-    cats = Category.objects.all()
-
-    context = {'post': post,
-               'menu': menu,
-               'title': post.title,
-               'cats': cats,
-               'cat_selected': post.cat_id}
-
-    return render(request, 'Basicchem/post.html', context=context)
-
-def show_category(request, cat_slug):
-    cats = Category.objects.filter(slug=cat_slug)
-    post = Basicchem.objects.filter(cat_id=cats[0].id)
 
 
-    if len(post) == 0:
-        raise Http404()
 
-    context = {'post': post,
-               'menu': menu,
-               'title': 'Main Page',
-               'cats': cats,
-               'cat_selected': cats[0].id}
-    return render(request, 'Basicchem/category.html', context=context)
+
+
+class ShowPost(DetailView):
+    model = Basicchem
+    template_name = 'Basicchem/post.html'
+    slug_url_kwarg = 'post_slug'
+    context_object_name = 'post'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = context['post']
+        context['menu'] = menu
+        context['cats'] = cats
+
+        return context
+
+
+
+class BasicchemCats(ListView):
+    model = Basicchem
+    template_name = 'Basicchem/index.html'
+    context_object_name = 'post'
+    allow_empty = False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Category - ' + str(context['post'][0].cat)
+        context['cat_selected'] = context['post'][0].cat_id
+        context['cats'] = cats
+        return context
+
+    def get_queryset(self):
+        return Basicchem.objects.filter(cat__slug=self.kwargs['cat_slug'])
+
+
 
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('unfortunately page not found')
+
+
+
 
 def add_feedback(request):
     if request.method == 'POST':

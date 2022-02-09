@@ -51,7 +51,7 @@
 {% endif %}
 
 {% for c in cats %}
-        {% if c.pk == cat_selected %}
+        {% if cat_selected == 0 %}
             <li class="selected">{{ c.name }}</li>
         {% else %}
             <li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
