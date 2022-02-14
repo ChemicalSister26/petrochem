@@ -1,3 +1,5 @@
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -9,6 +11,8 @@ from .forms import *
 from .models import *
 # Create your views here.
 
+from .utils import *
+
 menu = [{'title': 'About us', 'url_name': 'about'},
         {'title': 'Main page', 'url_name': 'home'},
         {'title': 'Articles', 'url_name': 'articles'},
@@ -17,18 +21,16 @@ menu = [{'title': 'About us', 'url_name': 'about'},
 
 cats = Category.objects.all()
 
-class Basicchemmain(ListView):
+class Basicchemmain(DataMixin, ListView):
     model = Basicchem
     template_name = 'Basicchem/index.html'
     context_object_name = 'post'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = menu
         context['title'] = 'Main page'
-        context['cat_selected'] = 0
         context['cats'] = cats
-        context['cat_selected'] = context['post'][0].cat_id
         return context
 
 
@@ -47,7 +49,7 @@ def about(request):
 
 
 
-class ShowPost(DetailView):
+class ShowPost(DataMixin, DetailView):
     model = Basicchem
     template_name = 'Basicchem/post.html'
     slug_url_kwarg = 'post_slug'
@@ -64,7 +66,7 @@ class ShowPost(DetailView):
 
 
 
-class BasicchemCats(ListView):
+class BasicchemCats(DataMixin, ListView):
     model = Basicchem
     template_name = 'Basicchem/index.html'
     context_object_name = 'post'
@@ -90,12 +92,25 @@ def pageNotFound(request, exception):
 
 
 
-def add_feedback(request):
-    if request.method == 'POST':
-        form = Addfeedback(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = Addfeedback()
-    return render(request, 'Basicchem/addfeedback.html', {'form': form, 'menu': menu, 'title': 'Add Feedback'})
+class AddFeedbacks(LoginRequiredMixin, CreateView):
+    form_class = Addfeedback
+    template_name = 'Basicchem/add_feedback.html'
+    login_url = '/admin/'
+    raise_exception = True
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Add feedback'
+        return context
+
+# def add_feedback(request):
+#     if request.method == 'POST':
+#         form = Addfeedback(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('home')
+#     else:
+#         form = Addfeedback()
+#
+#     return render(request, 'Basicchem/addfeedback.html', {'form': form, 'menu': menu, 'title': 'Add Feedback'})
