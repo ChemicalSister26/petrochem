@@ -9,14 +9,16 @@ menu = [{'title': 'About us', 'url_name': 'about'},
 
 
 class DataMixin:
-        def get_user_context(self, **kwargs):
-                context = kwargs
-                cats = Category.objects.all()
+    paginate_by = 3
 
-                user_menu = menu.copy()
-                if not self.request.user.is_authenticated:
-                        user_menu.pop(4)
-                context['menu'] = user_menu
+    def get_user_context(self, **kwargs):
+            context = kwargs
+            cats = Category.objects.all()
 
-                context['cats'] = cats
-                return context
+            user_menu = menu.copy()
+            if not self.request.user.is_authenticated:
+                    user_menu.pop(4)
+            context['menu'] = user_menu
+
+            context['cats'] = cats
+            return context

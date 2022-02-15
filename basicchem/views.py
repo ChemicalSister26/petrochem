@@ -20,6 +20,7 @@ from .utils import *
 cats = Category.objects.all()
 
 class Basicchemmain(DataMixin, ListView):
+
     model = Basicchem
     template_name = 'Basicchem/index.html'
     context_object_name = 'post'
@@ -61,6 +62,7 @@ class ShowPost(DataMixin, DetailView):
 
 
 class BasicchemCats(DataMixin, ListView):
+
     model = Basicchem
     template_name = 'Basicchem/index.html'
     context_object_name = 'post'
