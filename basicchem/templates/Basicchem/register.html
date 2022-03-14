@@ -1,0 +1,16 @@
+{%  extends 'Basicchem/base.html' %}
+
+{%  block content %}
+<h1>{{ title }}</h1>
+
+<form method="post" enctype="multipart/form-data">
+     {% csrf_token %}
+
+    {% for f in form %}
+    <p> <label class="form_label" for="{{ f.id_for_label }}"> {{ f.label }}: </label> {{ f }} </p>
+    <div class='form_error'>{{ f.errors }}</div>
+    {% endfor %}
+      <button class='form_label' type="submit">Register</button>
+</form>
+
+{% endblock content %}

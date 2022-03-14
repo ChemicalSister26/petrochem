@@ -11,5 +11,7 @@ urlpatterns = [
     path('post/<slug:post_slug>/', ShowPost.as_view(), name='post'),
     path('category/<slug:cat_slug>/', BasicchemCats.as_view(), name='category'),
     path('add_feedback/', AddFeedbacks.as_view(), name='add_feedback'),
+    path('login/', login, name='login'),
+    path('registration/', RegisterUser.as_view(), name = 'registration')
 
 ]

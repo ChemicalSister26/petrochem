@@ -19,7 +19,8 @@ class Basicchem(models.Model):
         return reverse('post', kwargs={'post_slug': self.slug})
 
     class Meta:
-        ordering = ['title']
+       ordering = ['title']
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True)
