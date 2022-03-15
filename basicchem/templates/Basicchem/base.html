@@ -30,8 +30,12 @@
 							<a class="nav-link active" aria-current="page" href="{%  url m.url_name %}">{{ m.title }}</a>
 						</li>
                         {% endfor %}
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item" class="nav-link active" aria-current="page"> {{ user.username }}</li> | <a class="nav-link active" aria-current="page" href ="{% url 'logout' %}"> Logout</a>
+					    {% else %}
 					    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'login' %}"> Login</a> | <a class="nav-link active" aria-current="page" href ="{% url 'registration' %}"> Register</a>
                         </li>
+                        {% endif %}
                     </ul>
                     {% endblock mainmenu %}
 
