@@ -2,6 +2,7 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
+from django.forms import model_to_dict
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -10,6 +11,10 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
+from rest_framework import generics
+from rest_framework.response import Response
+
+from .serializer import BasicchemSerializer
 from .utils import *
 from .forms import *
 from .models import *
@@ -128,18 +133,11 @@ class LoginUser(DataMixin, LoginView):
     def get_success_url(self):
         return reverse_lazy('home')
 
+class BasicchemAPIView(generics.ListAPIView):
+    queryset = Basicchem.objects.all()
+    serializer_class = BasicchemSerializer
 
 
 
 
 
-# def add_feedback(request):
-#     if request.method == 'POST':
-#         form = Addfeedback(request.POST, request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('home')
-#     else:
-#         form = Addfeedback()
-#
-#     return render(request, 'Basicchem/addfeedback.html', {'form': form, 'menu': menu, 'title': 'Add Feedback'})
