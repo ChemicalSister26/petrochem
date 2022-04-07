@@ -31,3 +31,12 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return reverse('category', kwargs={'cat_slug': self.slug})
+
+
+class SqrtEquation(models.Model):
+    first_number = models.FloatField(null=True, blank=True)
+    second_number = models.FloatField(null=True, blank=True)
+    third_number = models.FloatField(null=True, blank=True)
+    des_1 = models.FloatField(null=True, blank=True)
+    des_2 = models.FloatField(null=True, blank=True)
+    unpossible = models.CharField(max_length=50, null=True, blank=True)
