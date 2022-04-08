@@ -13,7 +13,6 @@ urlpatterns = [
     path('add_feedback/', AddFeedbacks.as_view(), name='add_feedback'),
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
-    path('registration/', RegisterUser.as_view(), name='registration'),
-    path('api/v1/basicchemlist', BasicchemAPIView.as_view()),
+    path('registration/', RegisterUser.as_view(), name='registration')
 
 ]
