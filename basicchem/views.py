@@ -134,42 +134,50 @@ class LoginUser(DataMixin, LoginView):
     def get_success_url(self):
         return reverse_lazy('home')
 
-class BasicchemAPIView(APIView):
-    def get(self, request):
-        queryset = Basicchem.objects.all()
-        return Response({'posts': BasicchemSerializer(queryset, many=True).data})
-
-    def post(self, request):
-        serializer = BasicchemSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response({'post': serializer.data})
-
-    def put(self, request, *args, **kwargs):
-        pk = kwargs.get('pk', None)
-        if not pk:
-            return Response({'error': "Method put not allowed"})
-
-        try:
-            instance = Basicchem.objects.get(pk=pk)
-        except:
-            return Response({'error': "Object does not exist"})
-
-        serializer = BasicchemSerializer(data=request.data, instance=instance)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response({'post': serializer.data})
-
-    def delete(self, request, *args, **kwargs):
-        pk = kwargs.get('pk', None)
-        if not pk:
-            return Response({'error': "Method put not allowed"})
-        Basicchem.objects.filter(pk=pk).delete()
-
-        return Response({'post':'delete post' + str(pk)})
+# class BasicchemAPIView(APIView):
+#     def get(self, request):
+#         queryset = Basicchem.objects.all()
+#         return Response({'posts': BasicchemSerializer(queryset, many=True).data})
+#
+#     def post(self, request):
+#         serializer = BasicchemSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#
+#         return Response({'post': serializer.data})
+#
+#     def put(self, request, *args, **kwargs):
+#         pk = kwargs.get('pk', None)
+#         if not pk:
+#             return Response({'error': "Method put not allowed"})
+#
+#         try:
+#             instance = Basicchem.objects.get(pk=pk)
+#         except:
+#             return Response({'error': "Object does not exist"})
+#
+#         serializer = BasicchemSerializer(data=request.data, instance=instance)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#
+#         return Response({'post': serializer.data})
+#
+#     def delete(self, request, *args, **kwargs):
+#         pk = kwargs.get('pk', None)
+#         if not pk:
+#             return Response({'error': "Method put not allowed"})
+#         Basicchem.objects.filter(pk=pk).delete()
+#
+#         return Response({'post':'delete post' + str(pk)})
 
 class BasicchemAPIList(generics.ListCreateAPIView):
+    queryset = Basicchem.objects.all()
+    serializer_class = BasicchemSerializer
+
+class BasicchemAPIUpdate(generics.UpdateAPIView):
+    queryset = Basicchem.objects.all()
+    serializer_class = BasicchemSerializer
+
+class BasicchemDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Basicchem.objects.all()
     serializer_class = BasicchemSerializer

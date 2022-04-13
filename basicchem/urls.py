@@ -15,5 +15,6 @@ urlpatterns = [
     path(r'logout/', logout_user, name='logout'),
     path(r'registration/', RegisterUser.as_view(), name='registration'),
     path(r'api/v1/basicchemlist', BasicchemAPIList.as_view()),
-    path(r'api/v1/basicchemlist/<int:pk>/', BasicchemAPIList.as_view()),
+    path(r'api/v1/basicchemlist/<int:pk>/', BasicchemAPIUpdate.as_view()),
+    path(r'api/v1/basicchemdetail/<int:pk>/', BasicchemDetailAPIView.as_view()),
 ]
