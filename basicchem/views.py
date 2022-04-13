@@ -169,3 +169,7 @@ class BasicchemAPIView(APIView):
         Basicchem.objects.filter(pk=pk).delete()
 
         return Response({'post':'delete post' + str(pk)})
+
+class BasicchemAPIList(generics.ListCreateAPIView):
+    queryset = Basicchem.objects.all()
+    serializer_class = BasicchemSerializer
