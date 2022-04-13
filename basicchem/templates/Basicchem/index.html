@@ -11,7 +11,7 @@
     {% endif %}
     <p class="first">Category: {{ p.cat }}</p>
     <p> {{ p.content|truncatewords:50 }}</p>
-    <a href="{{  p.get_absolute_url }}">Read post</a>
+    <a href="{{ p.get_absolute_url }}">Read post</a>
 
 </li>
 {% endfor %}
