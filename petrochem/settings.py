@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'basicchem.apps.BasicchemConfig'
+    'basicchem.apps.BasicchemConfig',
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
