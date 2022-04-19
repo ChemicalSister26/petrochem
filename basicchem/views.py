@@ -136,6 +136,16 @@ class LoginUser(DataMixin, LoginView):
 class BasicchemAPIView(generics.ListAPIView):
     queryset = Basicchem.objects.all()
     serializer_class = BasicchemSerializer
+    
+class BasicchemAPIUpdate(generics.UpdateAPIView):
+    queryset = Basicchem.objects.all()
+    serializer_class = BasicchemSerializer
+
+class BasicchemAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Basicchem.objects.all()
+    serializer_class = BasicchemSerializer
+
+    
 
 
 

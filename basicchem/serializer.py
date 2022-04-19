@@ -6,4 +6,4 @@ from .models import Basicchem
 class BasicchemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Basicchem
-        fields = ('title', 'cat_id')
+        fields = '__all__'
