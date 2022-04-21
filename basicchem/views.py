@@ -15,6 +15,7 @@ from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.response import Response
 
+from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from .serializer import BasicchemSerializer
 from .utils import *
 from .forms import *
@@ -142,11 +143,12 @@ class BasicchemAPIList(generics.ListCreateAPIView):
 class BasicchemAPIDestroy(generics.RetrieveDestroyAPIView):
      queryset = Basicchem.objects.all()
      serializer_class = BasicchemSerializer
-     permission_classes = [IsAdminUser, ]
+     permission_classes = [IsAdminOrReadOnly, ]
 #
 class BasicchemAPIUpdate(generics.RetrieveUpdateAPIView):
      queryset = Basicchem.objects.all()
      serializer_class = BasicchemSerializer
+     permission_classes = [IsOwnerOrReadOnly, ]
 
 # class BasicchemViewset(viewsets.ModelViewSet):
 #     queryset = Basicchem.objects.all()
