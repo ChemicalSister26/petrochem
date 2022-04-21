@@ -12,7 +12,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
 from rest_framework import generics, viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
@@ -148,7 +149,8 @@ class BasicchemAPIDestroy(generics.RetrieveDestroyAPIView):
 class BasicchemAPIUpdate(generics.RetrieveUpdateAPIView):
      queryset = Basicchem.objects.all()
      serializer_class = BasicchemSerializer
-     permission_classes = [IsOwnerOrReadOnly, ]
+     permission_classes = [IsAuthenticated, ]
+     authentication_classes = [TokenAuthentication, ]
 
 # class BasicchemViewset(viewsets.ModelViewSet):
 #     queryset = Basicchem.objects.all()

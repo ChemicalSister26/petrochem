@@ -24,7 +24,8 @@ from petrochem import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('basicchem.urls'))
+    path('', include('basicchem.urls')),
+
 ]
 
 if settings.DEBUG:
