@@ -12,6 +12,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
 from rest_framework import generics, viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.response import Response
 
 from .serializer import BasicchemSerializer
@@ -133,21 +134,24 @@ class LoginUser(DataMixin, LoginView):
     def get_success_url(self):
         return reverse_lazy('home')
 
-# class BasicchemAPIView(generics.ListAPIView):
-#     queryset = Basicchem.objects.all()
-#     serializer_class = BasicchemSerializer
+class BasicchemAPIList(generics.ListCreateAPIView):
+     queryset = Basicchem.objects.all()
+     serializer_class = BasicchemSerializer
+     permission_classes = [IsAuthenticatedOrReadOnly, ]
 #
-# class BasicchemAPIUpdate(generics.UpdateAPIView):
-#     queryset = Basicchem.objects.all()
-#     serializer_class = BasicchemSerializer
+class BasicchemAPIDestroy(generics.RetrieveDestroyAPIView):
+     queryset = Basicchem.objects.all()
+     serializer_class = BasicchemSerializer
+     permission_classes = [IsAdminUser, ]
 #
-# class BasicchemAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+class BasicchemAPIUpdate(generics.RetrieveUpdateAPIView):
+     queryset = Basicchem.objects.all()
+     serializer_class = BasicchemSerializer
+
+# class BasicchemViewset(viewsets.ModelViewSet):
 #     queryset = Basicchem.objects.all()
 #     serializer_class = BasicchemSerializer
 
-class BasicchemViewset(viewsets.ModelViewSet):
-    queryset = Basicchem.objects.all()
-    serializer_class = BasicchemSerializer
 
 
 

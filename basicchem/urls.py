@@ -4,8 +4,8 @@ from django.contrib.auth import views as auth_views
 from .views import *
 from rest_framework import routers
 
-router = routers.SimpleRouter()
-router.register(r'basicchem', BasicchemViewset)
+# router = routers.SimpleRouter()
+# router.register(r'basicchem', BasicchemViewset)
 
 urlpatterns = [
     path('', Basicchemmain.as_view(), name='home'),
@@ -18,7 +18,8 @@ urlpatterns = [
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
     path('registration/', RegisterUser.as_view(), name='registration'),
-    # path('api/v1/basicchemlist', BasicchemViewset.as_view({'get': 'list'})),
-    # path('api/v1/basicchemlist/<int:pk>/', BasicchemViewset.as_view({'put': 'update'})),
-    path('api/v1/', include(router.urls)), #http://127.0.0.1:8000/api/v1/basicchem/
+    path('api/v1/basicchemlist/', BasicchemAPIList.as_view()),
+    path('api/v1/basicchemlist/<int:pk>/', BasicchemAPIUpdate.as_view()),
+    path('api/v1/basicchemdelete/<int:pk>/', BasicchemAPIDestroy.as_view()),
+    # path('api/v1/', include(router.urls)), #http://127.0.0.1:8000/api/v1/basicchem/
 ]
