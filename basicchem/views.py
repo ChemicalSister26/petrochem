@@ -40,6 +40,9 @@ class Basicchemmain(DataMixin, ListView):
         c_def = self.get_user_context(title='Main page')
         return dict(list(context.items()) + list(c_def.items()))
 
+    def get_queryset(self):
+        return Basicchem.objects.filter(is_published=True)
+
 def logout_user(request):
     logout(request)
     return redirect('login')
@@ -100,7 +103,7 @@ class BasicchemCats(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        return Basicchem.objects.filter(cat__slug=self.kwargs['cat_slug'])
+        return Basicchem.objects.filter(cat__slug=self.kwargs['cat_slug']).select_related('cat')
 
 
 
