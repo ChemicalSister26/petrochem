@@ -1,14 +1,16 @@
 from django.urls import path, include, re_path
 from django.contrib.auth import views as auth_views
-
+from django.views.decorators.cache import cache_page
 from .views import *
 from rest_framework import routers
 
 # router = routers.SimpleRouter()
 # router.register(r'basicchem', BasicchemViewset)
 
+
+
 urlpatterns = [
-    path('', Basicchemmain.as_view(), name='home'),
+    path('', cache_page(60*15)(Basicchemmain.as_view()), name='home'),
     path('articles/', articles, name='articles'),
     path('tasks/', tasks, name='tasks'),
     path('about/', about, name='about'),
