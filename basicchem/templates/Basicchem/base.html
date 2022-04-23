@@ -48,8 +48,10 @@
 		</nav>
 <div class="wrapper">
 <!--Навигация по категориям-->
+    {% load cache %}
     <nav id="sidebar">
         <ul class="list-unstyledcomponents">
+            {% cache 500 sidebar %}
 {% if cat_selected == 0 %}
 
             <li class="selected">Все категории</li>
@@ -66,6 +68,7 @@
 {% endfor %}
         </ul>
     </nav>
+    {% endcache %}
 </div>
 
 <!--блок контента-->

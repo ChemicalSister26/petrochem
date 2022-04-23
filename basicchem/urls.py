@@ -10,7 +10,7 @@ from rest_framework import routers
 
 
 urlpatterns = [
-    path('', cache_page(60*15)(Basicchemmain.as_view()), name='home'),
+    path('', Basicchemmain.as_view(), name='home'),
     path('articles/', articles, name='articles'),
     path('tasks/', tasks, name='tasks'),
     path('about/', about, name='about'),
