@@ -5,6 +5,7 @@ menu = [{'title': 'About us', 'url_name': 'about'},
         {'title': 'Articles', 'url_name': 'articles'},
         {'title': 'Tasks', 'url_name': 'tasks'},
         {'title': 'Add feedback', 'url_name': 'add_feedback'},
+        {'title': 'Write a letter for support', 'url_name': 'write_letter'},
         ]
 
 

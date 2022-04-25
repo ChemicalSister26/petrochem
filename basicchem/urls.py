@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/v1/auth_session/', include('rest_framework.urls')),
     path(r'api/v1/auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
+    path(r'write_letter/', WriteLetter.as_view(), name='write_letter'),
 
     # path('api/v1/', include(router.urls)), #http://127.0.0.1:8000/api/v1/basicchem/
 ]

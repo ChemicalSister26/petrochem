@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 
 from rest_framework import generics, viewsets
 from rest_framework.authentication import TokenAuthentication
@@ -90,6 +90,20 @@ class ShowPost(DataMixin, DetailView):
         return dict(list(context.items()) + list(c_def.items()))
 
 
+class WriteLetter(DataMixin, FormView):
+    form_class = ContactForm
+    template_name = 'Basicchem/write_letter.html'
+    login_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Write a letter')
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
 
 class BasicchemCats(DataMixin, ListView):
 

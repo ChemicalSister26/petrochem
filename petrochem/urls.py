@@ -25,6 +25,7 @@ from petrochem import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('basicchem.urls')),
+    path('captcha/', include('captcha.urls')),
 
 ]
 
